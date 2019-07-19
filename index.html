@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Cognitive</title>
+        <link rel="icon" href="res/favicon.png">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+    </head>
+
+    <body>
+      <div class = "landing-body">
+        <div class = "padding-assist">
+        <nav class="navbar navbar-expand-md bg-light navbar-light sticky-top">
+            <img class="navbar-brand" src="res/favicon.png"/>
+            <div class = "bar-title">
+              cognitive.
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-users"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="test.html"><i class="fas fa-brain"></i> The Test</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyBchPIaXkSX2n6We4Dsp5rVkjTB5FKJiQo",
+                authDomain: "cognitive-f72bb.firebaseapp.com",
+                databaseURL: "https://cognitive-f72bb.firebaseio.com",
+                projectId: "cognitive-f72bb",
+                storageBucket: "cognitive-f72bb.appspot.com",
+                messagingSenderId: "940470277749",
+                appId: "1:940470277749:web:43c1f58aab5c16d3"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            var db = firebase.firestore();
+
+            function hideDangerAlert() {
+                document.getElementById("alert-danger").style.display = "none";
+            }
+
+            function hideSuccessAlert() {
+                document.getElementById("alert-success").style.display = "none";
+            }
+
+            function emailIsValid (email) {
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test((String)(email).toLowerCase());
+            }
+
+            function subscribe() {
+                var email = document.getElementById("email").value;
+                if(emailIsValid(email)) {
+                    db.collection("subs").add({
+                        email: email,
+                    })
+                    .then(function(docRef) {
+                        console.log("Document written with ID: ", docRef.id);
+                    })
+                    .catch(function(error) {
+                        console.error("Error adding document: ", error);
+                    });
+
+                    document.getElementById("email").value = "";
+                    document.getElementById("alert-success").style.display = "block";
+                    document.getElementById("alert-danger").style.display = "none";
+                }
+                else {
+                    document.getElementById("alert-danger").style.display = "block";
+                    document.getElementById("alert-success").style.display = "none";
+                }
+            }
+        </script>
+
+        <main>
+          <div class="main-text text-center">
+            <div class = "heading-temp">
+              coming soon.
+            </div>
+            <div class = "subscribe-temp">
+              <p>subscribe to be notified when we launch.</p>
+            </div>
+            <!-- <img class="mx-auto d-block logo" width = "300px"- src="res/logo.png" alt="LOGO"/><br></br> -->
+              <input type="text" id="email" name="email" placeholder="EMAIL">
+              <input type="submit" value="Submit" onclick="subscribe()">
+              <div id="alert-success" class="alert alert-success">
+                  <button type="button" class="close" onclick="hideSuccessAlert()"><i class="fas fa-times"></i></button>
+                  <strong>Success!</strong>
+              </div>
+              <div id="alert-danger" class="alert alert-danger">
+                  <button type="button" class="close" onclick="hideDangerAlert()"><i class="fas fa-times"></i></button>
+                  <strong>Enter a Valid Email!</strong>
+              </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    </body>
+</html>
